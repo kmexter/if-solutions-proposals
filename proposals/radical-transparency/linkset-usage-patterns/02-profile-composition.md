@@ -59,9 +59,9 @@ to actually mean that the original `<resource-uri>` is conforming to all of the 
 The following link relations are in use to connect composing profiles to their members:
 
 | Relation Type	                | Specification Source                          | Technical Function | 
-| ----------------------------- | ----------------------------------------------| ------------------ |
-| rel=http//schema.org/hasPart  | [schema:hasPart](http://schema.org/hasPart)   | Declares that a profile is composed of (or includes) another profile, triggering the inference logic.
-| rel=type                      | [RFC 6903 - additional link types][RFC 6903]  | (Optional) Explicitly types a resource as being a profile identifier, providing metadata about the role of the URI in the chain.
+| :---------------------------- | :---------------------------------------------| :----------------- |
+| rel= http//schema.org/hasPart | [schema:hasPart](http://schema.org/hasPart)   | Declares that a profile is composed of (or includes) another profile, triggering the inference logic.
+| rel=type                      | [RFC 6903]                                    | (Optional) Explicitly types a resource as being a profile identifier, providing metadata about the role of the URI in the chain.
 
 
 See [IANA Link relations][IANA relreg]
