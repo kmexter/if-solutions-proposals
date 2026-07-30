@@ -30,8 +30,8 @@
      inkscape:zoom="1.7015625"
      inkscape:cx="320"
      inkscape:cy="240.07346"
-     inkscape:window-width="1920"
-     inkscape:window-height="1131"
+     inkscape:window-width="2560"
+     inkscape:window-height="1371"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -64,15 +64,6 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#8ff0a4;fill-opacity:0.15;stroke:none;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.529167, 1.5875;stroke-dashoffset:0"
-       id="rect1631"
-       width="47.492714"
-       height="121.44375"
-       x="119.0625"
-       y="2.9104166"
-       rx="7.9374971"
-       ry="7.9375005" />
-    <rect
        style="fill:#dc8add;fill-opacity:0.15;stroke:none;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.529167, 1.58749;stroke-dashoffset:0"
        id="rect1625"
        width="110.72813"
@@ -80,6 +71,26 @@
        x="2.7781205"
        y="44.979168"
        rx="7.9374967"
+       ry="7.9375005" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.7625px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#613583;stroke-width:0.264583"
+       x="19.043798"
+       y="82.825951"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-size:4.7625px;fill:#613583;fill-opacity:1;stroke-width:0.264583"
+         x="19.043798"
+         y="82.825951">rel=http://schema.org/hasPart</tspan></text>
+    <rect
+       style="fill:#8ff0a4;fill-opacity:0.15;stroke:none;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.529167, 1.5875;stroke-dashoffset:0"
+       id="rect1631"
+       width="47.492714"
+       height="121.44375"
+       x="119.0625"
+       y="2.9104166"
+       rx="7.9374971"
        ry="7.9375005" />
     <rect
        style="fill:#99c1f1;fill-opacity:0.15;stroke:none;stroke-width:0.529167;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.529167, 1.5875;stroke-dashoffset:0"
@@ -206,14 +217,14 @@
     <text
        xml:space="preserve"
        style="font-size:4.7625px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#613583;stroke-width:0.264583"
-       x="78.812241"
-       y="56.367619"
+       x="18.520832"
+       y="55.562496"
        id="text3107"><tspan
          sodipodi:role="line"
          id="tspan3105"
          style="font-size:4.7625px;fill:#613583;fill-opacity:1;stroke-width:0.264583"
-         x="78.812241"
-         y="56.367619">rel=item</tspan></text>
+         x="18.520832"
+         y="55.562496">rel=http://schema.org/hasPart</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:4.7625px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#26a269;stroke-width:0.264583"
@@ -258,17 +269,6 @@
        style="fill:none;stroke:#613583;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 97.895837,87.312501 -2.645838,5.291664 m 5.291671,0 H 95.249999 M 105.83333,29.104166 c 0,37.041666 0,55.5625 -10.583331,63.499999"
        sodipodi:nodetypes="cccccc" />
-    <text
-       xml:space="preserve"
-       style="font-size:4.7625px;line-height:1.25;font-family:'Liberation Mono';-inkscape-font-specification:'Liberation Mono';fill:#613583;stroke-width:0.264583"
-       x="78.812241"
-       y="82.825951"
-       id="text4134"><tspan
-         sodipodi:role="line"
-         id="tspan4132"
-         style="font-size:4.7625px;fill:#613583;fill-opacity:1;stroke-width:0.264583"
-         x="78.812241"
-         y="82.825951">rel=item</tspan></text>
     <path
        id="path4138"
        style="fill:none;stroke:#26a269;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
