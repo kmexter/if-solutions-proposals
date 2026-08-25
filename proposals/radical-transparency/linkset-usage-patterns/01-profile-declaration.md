@@ -12,11 +12,11 @@ The objective of this design pattern is to resolve the "interoperability paradox
 
 The requirement for interoperability transcends simple data exchange; it necessitates a structured alignment of technical expectations. In architectural practice, this is best understood through the lens of layered requirements.
 
-> **The OSI-Stack Analogy**: This kind of declaration should be viewed as a logical extension of the tiered approach laid down by the OSI (Open Systems Interconnection) model. There, lower-layer protocol-headers are consistently declaring the nature of their payload, this unambigously activating the correct next-layer protocol. While HTTP continues to follow that pattern through its Content-Type header, that practice actually assumes it fits its role of being the final presentation-layer, directly serving human consumption.  This assumption fails to take into account the contemporary reality: HTTP has become an application delivery platform, is tunneling even higher layer APIs like a true transport layer, and is serving not humans but bots and automated systems with API responses, possibly semantically rich. In this world, the failure to declare and verify conformity creates a break in this clear declarative chain. Without this, we fail to catch mismatches in schema, protocol, or constraints, and make the workings of upper layers of semantic exchange inherently unreliable. Leaving the solution to an AI driven statistical inference based on estimated likelyhood is needlessly introducing noise and lack of accountability.
+> **The OSI-Stack Analogy**: This kind of declaration should be viewed as a logical extension of the tiered approach laid down by the OSI (Open Systems Interconnection) model. There, lower-layer protocol headers consistently declare the nature of their payload, this unambiguously activating the correct next-layer protocol. While HTTP continues to follow that pattern through its Content-Type header, that practice actually assumes it fits its role of being the final presentation layer, directly serving human consumption.  This assumption fails to take into account the contemporary reality: HTTP has become an application-delivery platform, is tunneling even higher-layer APIs like a true transport layer, and is serving not humans but bots and automated systems with API responses, that are possibly semantically enriched. In this world, the failure to declare and verify conformity creates a break in this clear declarative chain. Without this, we fail to catch mismatches in schema, protocol, or constraints, and make the workings of upper layers of semantic exchange inherently unreliable. Leaving the solution to an AI-driven statistical inference based on estimated likelihood needlessly introduces noise and lacks accountability.
 
 ### The Problem Space
 
-"Standards" are frequently insufficient for achieving guaranteed interoperability because they are designed for broad applicability, often containing numerous variables, optional parameters, and unrestricted payloads. In contrast, a Profile is a conceptual entity that captures the totality of guaranteed expectations for a digital asset. The architecture utilizes Profiles to narrow down the variables within a standard, thereby increasing agreement, certainties, and practical utility.
+"Standards" are frequently insufficient for achieving guaranteed interoperability because they are designed for broad applicability, often containing numerous variables, optional parameters, and unrestricted payloads. In contrast, a Profile is a conceptual entity that captures the totality of guaranteed expectations for a digital asset. The architecture utilises Profiles to narrow down the variables within a standard, thereby increasing agreement, certainties, and practical utility.
 
 ### Radical Transparency
 
@@ -34,15 +34,15 @@ Profile declarations are made using the profile link relation ([RFC 6906][RFC 69
 Link: <profile-uri>; rel=profile
 ```
 
-As Ludwig Witggenstein's quote "meaning is use" would have it: the use of the profile-uri inside a profile-declaration gives it its meaning. Any resource declaring its conformance to a profile-uri, creates it as such: allowing to compare conformances, and reliably predict available affordances to any client.
+As Ludwig Witggenstein's quote "meaning is use" would have it: the use of the profile-uri inside a profile-declaration gives it its meaning. Any resource declaring its conformance to a profile-uri, creates it as such: allowing one to compare conformances and reliably predict available affordances to any client.
 
 ### @LVL1 :: resolve and add type definition
 
-Additional minor effort should be considered. Through the following extra provisioning the introduction of any profile-uri adds clear intentoinallity and thus trust.
+Additional minor effort should be considered. Through the following extra provisioning the introduction of any profile-uri adds clear intentionality and thus trust.
 
-Profiles-uri themselves should resolve (aka be dereferencable, i.e. provide an actual reponse when receiving a HTTP request)
+Profile-uris themselves should resolve (aka be dereferencable, i.e. provide an actual response when receiving a HTTP request).
 
-In that response, an extra HTTP-LINK header should expose its type as beoing a profile-uri through:
+In that response, an extra HTTP-LINK header should expose its type as being a profile-uri through:
 
 ```
 # from the <profile-uri> as anchor
@@ -52,7 +52,7 @@ Link: <https://www.rfc-editor.org/info/rfc6906>; rel=type
 
 ### @LVL2 :: provide description
 
-Finally, to more elaborately describe the profile and it itended use. This response could actually link to a profile-description resource.
+Finally, to more elaborately describe the profile and it intended use, this response could actually link to a profile-description resource.
 
 
 ``` 
@@ -61,13 +61,13 @@ Link: <https://www.rfc-editor.org/info/rfc6906>; rel=type
 Link: <profile-description-uri>; rel=describedby
 ```
 
-The body of such description resource should cover its intentions and provided guarantees. Additionally it could contain or link to additional resources that allow to formally validate the declared conformance.
+The body of such description resource should cover its intentions and provided guarantees. Additionally it could contain or link to additional resources that allow a formal validation of the declared conformance.
 
-Note that the `<profile-uri>` itself could fulffil this role. 
+Note that the `<profile-uri>` itself could fulfil this role. 
 
-Finally, the format approach to use for these actual profile-descriptions is deliberitely not a part of this pattern. Many such competing profile-description approaches exist, and are proving to be useful in different application domains (e.g. [dx-prof] and [ro-crate]). 
+Finally, the format approach to use for these actual profile-descriptions is deliberately not a part of this pattern. Many such competing profile-description approaches exist, and are proving to be useful in different application domains (e.g. [dx-prof] and [ro-crate]). 
 
-The usefulness of this pattern does not require us to narrow down to only one of them. Quite the opposite: by applying the same pattern of 'declaring its conformance' to the meta level profile-description-profile that choice remains open without breaking core interoperability
+The usefulness of this pattern does not require us to narrow down to only one of them. Quite the opposite: by applying the same pattern of 'declaring its conformance' to the meta level profile-description-profile, that choice remains open without breaking core interoperability
 
 
 
@@ -100,7 +100,7 @@ This pattern aligns with international standards to ensure cross-domain utility.
 
 ## Variants and equivalence
 
-The strict recommendation in this pattern is to encode it using web-linking with rel=profile.
+The strict recommendation in this pattern is to encode it using web linking with rel=profile.
 
 Consistent with [Jon Postel’s Robustness Principle](https://en.wikipedia.org/wiki/Robustness_principle) it is important to understand existing alternatives that are in use to express the equivalent conformance declaration:
 
@@ -118,7 +118,7 @@ Content-Type: main/subtype; profile="<profile-uri>"
 <resource-uri> dct:conformsTo <profile-uri>
 ```
 
-* The link-relations RFC allows non-registered relation-types to simply use full URI syntax. In combination with the above ducbblin-core predicate, an equivalent encoding could be achieved through:
+* The link-relations RFC allows non-registered relation-types to simply use full URI syntax. In combination with the above Dublin Core predicate, an equivalent encoding could be achieved through:
  
 
 ```
