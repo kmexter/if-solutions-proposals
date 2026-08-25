@@ -6,7 +6,7 @@
 
 ## Goal
 
-The primary objective of the [RT-P05] pattern is to establish a rigorous framework for "anchoring" a data fragment or subset URI back to its two foundational parents: the conceptual dataset (the "what") and the API base/service provider (the "how"). In the context of "Radical Transparency," a URI that delivers a specific search result or filtered slice must not exist in isolation, but link up to its related resources in an understandable way.
+The primary objective of the [RT-P05] pattern is to establish a rigorous framework for anchoring a data fragment or subset URI back to its two foundational parents: the conceptual dataset (the "what") and the API base/service provider (the "how"). In the context of Radical Transparency, a URI that delivers a specific search result or filtered slice must not exist in isolation, but link up to its related resources in an understandable way.
 
 By mandating explicit, machine-readable links, this pattern mitigates Semantic Drift: the phenomenon where a data fragment loses its context, licensing, and provenance as it moves through a distributed system. Anchoring ensures that the Context IRI (the fragment) is inextricably bound to Target IRIs representing the broader dataset and the service contract, even if this IRI moves into detached media: a saved bookmark, or a shared link via chat or email or bookmark. 
 
@@ -16,15 +16,15 @@ This is a technical prerequisite for automated interoperability, allowing humans
 
 Specifically, RT-P05 seeks to avoid resp. achieve these two 'states':
 
-* The Broken Chain: This represents a failure state where a subset URI (e.g., a complex search result) provides data but lacks machine-readable pointers to its origin. Without these links, an automated agent cannot determine the parent dataset's license, find the API's technical capabilities (e.g. OpenAPI), or verify the data's persistent identity. This forces AI agents and bots into "statistical guesswork," leading to late unpleasant surprises, wasted time, unreliable interpretation of high-stakes information where the "implicit" context is lost, and increasingly also hallucination that can be avoided.
+* The Broken Chain: This represents a failure state where a subset URI (e.g., a complex search result) provides data but lacks machine-readable pointers to its origin. Without these links, an automated agent cannot determine the parent dataset's licence, find the API's technical capabilities (e.g. OpenAPI), or verify the data's persistent identity. This forces AI agents and bots into "statistical guesswork," leading to late unpleasant surprises, wasted time, unreliable interpretation of high-stakes information where the "implicit" context is lost, and increasingly also hallucination that can be avoided.
 
-* Maximum Boredom (aka minimal surprise): This is the architectural preference for utilizing mature, standardized, and highly predictable IETF RFCs and OGC patterns. True interoperability is achieved when the discovery path is so standardized it becomes "boring" to the developer or bot. By relying on ubiquitous standards like RFC 8288 (Web Linking), the need for custom logic or proprietary integration is removed. The navigation from a fragment to its dataset or API definition becomes deterministic, predictable, and machine-actionable by design.
+* Maximum Boredom (aka minimal surprise): This is the architectural preference for utilising mature, standardised, and highly predictable IETF RFCs and OGC patterns. True interoperability is achieved when the discovery path is so standardised it becomes "boring" to the developer or bot. By relying on ubiquitous standards like RFC 8288 (Web Linking), the need for custom logic or proprietary integration is removed. The navigation from a fragment to its dataset or API definition becomes deterministic, predictable, and machine-actionable by design.
 
 ## Encoding 
 
 Implementation requires exposing these relations through standard web-linking mechanisms. 
 
-A standard response for a `<fragment-api-uri>` must include the `rel="collection"` link to the `<base-api-uri>` that identifies the webservice-API it is part of, typically this is the topmost URI of the service that functions as its entrypoint and is used as the core reference in any `api-catalog` as well as the anchor for further resources describing the API.
+A standard response for a `<fragment-api-uri>` must include the `rel="collection"` link to the `<base-api-uri>` that identifies the webservice-API it is part of. Typically, this is the topmost URI of the service that functions as its entrypoint and is used as the core reference in any `api-catalog` as well as the anchor for further resources describing the API.
 
 ```
 # from the original <fragment-api-uri> as anchor
@@ -81,9 +81,9 @@ which in turn holds:
 
 ### Note on search index optimisation and rel=canonical
 
-As was the case with the previous pattern [RT-P03] a potential extra role can be played in this case by `rel=canonical` too.
+As was the case with the previous pattern [RT-P03], a potential extra role can be played in this case by `rel=canonical`.
 
-Just like was the case there, this relation allows, in the context of search-engines to defer, and accumulate matching hits, from subresources to the central aggregatting source. In practice this means each of the subresources (or fragments) would forefeit having deeplinks to themselves presented in seach-engine results in favor of linking back to the api-endpoint, or more likely given the human-oriented use of this search-engines its UI.
+Just as was the case there, this relation allows, in the context of search engines, to defer and accumulate matching hits, from subresources to the central aggregating source. In practice this means each of the subresources (or fragments) would forfeit having deep links to themselves presented in search-engine results, in favor of linking back to the api-endpoint, or more likely - given the human-oriented use of this search-engines - its UI.
 
 It should be a careful consideration on the desired effect to actually apply this or not in any specific case.
 
@@ -152,7 +152,7 @@ Applying the pattern straightforwardly simply means:
 
 1. fragments are attached to their base, and for convenience directly to its linkset
 1. that linkset connects them to the dataset, a catalog, and its descriptions via its linkset
-1. a catalog is actually listing the service for discoverability
+1. a catalog actually lists the service for discoverability
 
 ### API resources group up and provide a linkset
 
