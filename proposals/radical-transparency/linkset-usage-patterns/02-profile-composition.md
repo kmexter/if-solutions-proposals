@@ -6,21 +6,21 @@
 
 ## Goal
 
-The objective of this pattern is to facilitate the granular detection of compatibility, mismatches, and instances of non-conformance within digital assets. By utilizing a recursive hierarchy of profile declarations, systems achieve "Radical Transparency," where the specific technical expectations and interoperability affordances of an asset are explicitly discoverable and machine-actionable.
+The objective of this pattern is to facilitate the granular detection of compatibility, mismatches, and instances of non-conformance within digital assets. By utiliding a recursive hierarchy of profile declarations, systems achieve "Radical Transparency," where the specific technical expectations and interoperability affordances of an asset are explicitly discoverable and machine-actionable.
 
 ## Motivation
 
-The creation by simple declaration of new profiles is intentionally open ended and low cost. The practice encourages anyone to explicitely declare "what they actually created" as conforming to a formal design specification, even if that turns out to be a one of a kind. The concept behind radical transparency activaly encourages this "declare your own norms" aproach above the current practice to "hide all design". 
+The creation by simple declaration of new profiles is intentionally open ended and low cost. The practice encourages anyone to explicitly declare "what they actually created" as conforming to a formal design specification, even if that turns out to be a one of a kind. The concept behind radical transparency actively encourages this "declare your own norms" aproach above the current practice to "hide all design". 
 
-To enable this approach the [RT-P01] pattern requires nothing more than the construction of a solid profile-uri wihtin ones own domain authority, not a standardisation committee or complex governance framework.  While those obviously have their role, and are not excluded from any trustful Radical Transparency approach at all, they can be overwhelming. This perception should never become an excuse for not having actual profile declarations.
+To enable this approach the [RT-P01] pattern requires nothing more than the construction of a solid profile-uri within ones own domain authority, not a standardisation committee or complex governance framework.  While those obviously have their role, and are not excluded from any trustful Radical Transparency approach at all, they can be overwhelming. This perception should never become an excuse for not having actual profile declarations.
 
-Obviously, when profiles can be created as easily as web-pages, some post-creation alignment technique is due to allow discovering equivalence or composition of profiles through some description of the relation between them.
+Obviously, when profiles can be created as easily as web pages, some post-creation alignment technique is required to allow discovering equivalence or composition of profiles through some description of the relation between them.
 
 To achieve this, the profile-composition pattern offers a clear strategy to infer interoperability declarations from encoded linkset relations between `<profile-uri>`s.
 
 ## Relation to other patterns
 
-[RT-P02] depends upon [RT-P01] being in place. It actually supports a large scale deployment of it by providing a mechanism to compose profiles into larger sets, and infer conformity from that in a predictable way.
+[RT-P02] depends upon [RT-P01] being in place. It supports a large-scale deployment of it by providing a mechanism to compose profiles into larger sets and infer conformity from that in a predictable way.
 
 
 ## Encoding
@@ -29,7 +29,7 @@ Profiles can express being composed of others through having `rel=http://schema.
 
 The semantic interpretation of such composition is to read the declaration of conformance of any resource to a composing profile to include the implied declaration of conformance to the member (hasPart) profiles it holds.
 
-So in this pattern one would find the encoding in HTTP-headers:
+In this pattern one would find the encoding in HTTP-headers:
 
 ```
 # from the original <resource-uri> as anchor
@@ -44,7 +44,7 @@ Link: <member-01-profile-uri>; rel=profile,
       <member02-profile-uri>; rel=profile
 ```
 
-to actually mean that the original `<resource-uri>` is conforming to all of the profiles: `<composite-profile-uri>`, `<member01-profile-uri>`, and `<member02-profile-uri>`
+to actually mean that the original `<resource-uri>` conforms to all of the profiles: `<composite-profile-uri>`, `<member01-profile-uri>`, and `<member02-profile-uri>`
 
 
 ## Sketch
@@ -69,9 +69,10 @@ See [IANA Link relations][IANA relreg]
 
 ### Design Consideration: Avoiding Hierarchy Confusion 
 
-This pattern [RT-P02] specifically utilizes `schema:hasPart` instead of the structural `rel="item"` ([RFC 6573]). 
+This pattern [RT-P02] specifically utilises `schema:hasPart` instead of the structural `rel="item"` ([RFC 6573]). 
 
 This distinction is made to prevent conceptual collision with patterns for structural decomposition ([RT-P08]) and life-cycle management ([RT-P09]):
+
 * Structural Logic ([RT-P05]/[RT-P08]/[RT-P09]): These patterns use `rel="item"` and `rel="collection"` for navigating groups (e.g., a catalog to a dataset or a time-series to a release). In these cases, the "logical containment" is embodied by the collection.
 * Semantic Logic ([RT-P02]): In profile composition, the specific (composite) profile "contains" the more general components. By using hasPart, the semantics of "presumed inclusion" (inheritance) remain distinct from the purely hierarchical splitting of linksets.
 
