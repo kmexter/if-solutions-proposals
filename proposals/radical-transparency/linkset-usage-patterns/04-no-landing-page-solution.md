@@ -8,54 +8,54 @@
 
 ## Goal
 
-To enable machine-actionability and identity persistence for digital resources without requiring a dedicated intermediate HTML landing page. 
+To enable machine actionability and identity persistence for digital resources without requiring a dedicated intermediate HTML landing page. 
 
-This ensures agents can navigate the resource graph regardless of the representation format retrieved. It introduces a subtle re-alignment in the navigation processes from content vs metadata interactions between humans and robots. As such it actually re-affirms the role of the user-agent as a robot itself with a clear human-assisting role. 
+This ensures agents can navigate the resource graph regardless of the representation format retrieved. It introduces a subtle realignment in the navigation processes from content vs metadata interactions between humans and robots. As such, it actually reaffirms the role of the user agent as a robot, with a clear human-assisting role. 
 
-Finally, this replaces the expectations on server side implementation: they no longer need to include (custom) visual design and experience flows into these intermediate HTML landing pages, in stead they can just and assume client side plugins to visualise the provided affordances.
+Finally, this replaces the expectations on server-side implementation: this no longer needs to include (custom) visual design and experience flows into these intermediate HTML landing pages, instead it can just and assume-client side plugins to visualise the provided affordances.
 
 
 ## Motivation
 
 
-In the current web landscape, persistent identifiers (PIDs) like DOIs typically get resolved on the web, leading (via redirection) to a so called HTML landing page, not to the core content or artifact the identifier is actually representing. 
+In the current web landscape, persistent identifiers (PIDs) such as DOIs typically get resolved on the web, leading (via redirection) to a so-called HTML landing page, not to the core content or artifact the identifier is actually representing. 
 
 This landing page functions as an intermediate gateway. Its layout and affordances depend on the implementation provided, but generally offers a combination of these:
 
 * mentioning the core persistent identifier for citations
-* highlighting core metadata information (autor, title, owner, license, ...)
-* share navigation paths to associated metadata records in various models, or services that visualize them
-* including providing the actual artifact/content download link
+* highlighting core metadata information (author, title, owner, licence, ...)
+* share navigation paths to associated metadata records in various models, or services that visualise them
+* providing the actual artifact/content download link
 
-Historically, this human-centric solution has proven its practical use and matured into common practice. It does however create several issues when we consider machine agents:
+Historically, this human-centric solution has proven its practical use and matured into common practice. It does, however, create several issues when we consider machine agents:
 
-* The Extra Hop: The Machines must perform additional requests and scrape HTML to find the actual data. Something human end users have grown into unquestioned habit, compensated by the extra features the landing page is providing.
-* The "Broken Chain": Conversely, if an agent reaches the actual content directly, it often loses the context of the PID and associated metadata.
+* The Extra Hop: The machines must perform additional requests and scrape HTML to find the actual data. Something human end users have grown into unquestioned habit, compensated by the extra features the landing page is providing.
+* The Broken Chain: Conversely, if an agent reaches the actual content directly, it often loses the context of the PID and associated metadata.
 * Human-Centric Bias: Documented usage patterns (like FAIR Signposting) treat the landing page habit as a mandatory reality. This confusion between materialisation and conceptualisation prohibits alternative approaches where open exposure of the information in a machine actionable way leads to reproduce the same (or more) functional affordances to the end-user.
 
 This linkset usage pattern proposes that the various link-targets (from the PID resolving link, to the available metadata descriptions, and the actual content-download link) can all play an independent and equal role as entry point. By including discovery links (in linksets) in the HTTP headers for each of them, we ensure that the core information locked in landing-page-HTML is accessible via each of them. 
 
-This allows to still provide human-readable interfaces, but repositioned to (just) one of many available descriptions (Option A). Having them at all gets demoted from requirement to questionable option as the affordances they hold can be generated on-the-fly by browser-plugins (Option B).
+This allows one to still provide human-readable interfaces, but repositioned to (just) one of many available descriptions (Option A). Having them at all gets demoted from requirement to choosable option as the affordances they hold can be generated on-the-fly by browser plugins (Option B).
 
 
 ## Encoding 
 
 In this approach, a specific representation of the core content being identified is designated to function as the primary resolution (i.e. where one "lands") for both human and machine agents.
-This will typically be the HTML variant in common browser usage, but is obviously negotiable as in [RT-P03].  The content thus functions as the prime landing-target.
+This will typically be the HTML variant in common browser usage, but is obviously negotiable as in [RT-P03].  The content thus functions as the prime landing target.
 
-The PID connects to the final content-location via practical resolving and possible redirects. 
+The PID connects to the final content location via practical resolving and possible redirects. 
 The link-back is ensured through a clear typed link-relation from that resulting anchor:
 
 ```
 Link: <resource-pid-uri>; rel=cite-as
 ```
 
-This usage is fitting the intentions and ideas of the [FAIR-signposting 'Identifier' pattern](https://signposting.org/patterns/identifier/)
+This usage fitts the intentions and ideas of the [FAIR-signposting 'Identifier' pattern](https://signposting.org/patterns/identifier/).
 
 
 Architects may still choose between two primary design options to fit this pattern.
 
-### Option (a) - Keep providing a describing HTML Variant (repurposing the current "Landing Page") 
+### Option (a) - Keep providing a describing HTML Variant (repurposing the current Landing Page) 
 
 In this approach, the existing HTML page describing the identified content is repurposed and linked to/from the actual content-url.
 
@@ -71,12 +71,12 @@ Link: <resource-pid-uri>; rel=describes
 
 This should be seen as an optional server-provided human-oriented view that describes and offers essential navigation and features concerning the actual identified resource.
 
-Note that, this option, still allows to provide (recommended) some machine-actionable description variant, possibly through an embedded HTML `<script type="application=ld+json">` tag.
+Note that this option still allows for the provision (recommended) of some machine-actionable description variant, possibly through an embedded HTML `<script type="application=ld+json">` tag.
 
 
 ### Option (b) - Only provide a core semantic model description, leaving human-centric description rendering to browser-plugin
 
-In this approach, the resource description is provided in a machine actionable format (or multiple ones).
+In this approach, the resource description is provided in a machine-actionable format (or multiple ones).
 
 The clear human-vs-machine equivalence of the descriptive role of these resources is achieved through the exact same typed link relations:
 
@@ -92,11 +92,11 @@ Link: <resource-pid-uri>; rel=describes
 ```
 
 
-### Option - Serve both human and machine-ready descriptions
+### Option C - Serve both human and machine-ready descriptions
 
 Of course, both options can be combined.
 
-In that case, fitting the [RT-P03] pattern, the alternative description formats should refer each other as `rel=alternate` variants. Each of which could additionally declare hints about `type=` and `profile=`
+In that case, fitting the [RT-P03] pattern, the alternative description formats should refer each other as `rel=alternate` variants. Each of which could additionally declare hints about `type=` and `profile=`.
 
 
 ## Sketch
@@ -111,7 +111,7 @@ The following link relations are mandated for declaring the machine-readable lin
 
 | Relation Type	| Specification Source	| Technical Function | 
 | ------------- | ----------------------| ------------------ |
-| rel="cite-as"	| [RFC 8574 - cite-as link relation][RFC 8574] | Conveys a Preferred URI for Referencing the core digital asset in this pattern.
+| rel="cite-as"	| [RFC 8574 - cite-as link relation][RFC 8574] | Conveys a preferred URI for referencing the core digital asset in this pattern.
 | rel="describedby"	| [W3C Protocol for Web Description Resources][powder-dr] | Connects the resource directly to its metadata descriptions (human or machine-actionable), effectively turning the former "landing page" into just another descriptive variant.
 
 
@@ -120,7 +120,7 @@ See [IANA Link relations][IANA relreg]
 
 ## Implementation Example: MarineInfo Case Study
 
-This example demonstrates a machine agent requesting a Marine Research dataset by its doi. The web resolving of that lands on the core data made available, providing links to the correct cite-as (pid) and the available description formats
+This example demonstrates a machine agent requesting a Marine Research dataset by its DOI. The web resolving of that lands on the core data made available, providing links to the correct cite-as (PID) and the available description formats
 
 
 * DOI for the dataset: https://doi.org/10.14284/170
@@ -130,7 +130,7 @@ This example demonstrates a machine agent requesting a Marine Research dataset b
 * Linkset (Variant Menu): https://marineinfo.org/id/dataset/1477-ls.json
 
 
-All mentioned links refer to the last one as their local webmap of interconnected, related resources through this header in the HTTP-Response:
+All mentioned links refer to the last one as their local web-map of interconnected, related resources through this header in the HTTP-Response:
 
 ```
 Link: <https://marineinfo.org/id/dataset/90-ls.json>; rel=linkset
@@ -174,7 +174,7 @@ Note how this also blends in the usage of [RT-P03]
 
 
 The first link (the DOI resolving one) can be configured to actually land at any of the other ones. 
-This pattern suggests, from those choices, the core content URI is actually a rather great place to land.
+This pattern suggests, from those choices, that the core content URI is actually a rather great place to land.
 
 
 ## Additional considerations
@@ -182,18 +182,18 @@ This pattern suggests, from those choices, the core content URI is actually a ra
 
 ### The confusion about the primary use scenario.
 
-While there are different web-addresses at play in this scenario, all of them essentially gravitate around one central one at the core: a published digital asset. It is clear for all that it is identified clearly by the distinctive doi. This shared clarity includes answers to "What in essence this digital asset actually is" or "What its identifier is actually referring to".
+While there are different web addresses at play in this scenario, all of them essentially gravitate around one central one at the core: a published digital asset. It is clear for all that it is identified clearly by the distinctive doi. This shared clarity includes answers the questions "What in essence this digital asset actually is" and "What its identifier is actually referring to".
 
 Still, current doi-resolving practice obfuscates this clarity: we land not on the thing, but on a descriptive page of the thing. This feels like going to the library for a certain book, and ending up returning home with the index-registry card about it. Not precisely a useful or satisfying experience, is it?
 
 And the introduced confusion has important unneeded side-effects: 
 
-First, the browser experience introduces the landing page as a substitute for the actual digital asset. So much so that people end up questioning if these representations of the [metadata records actually need separate PIDs?](https://pidforum.org/t/do-metadata-records-need-separate-pids/2115). 
+First, the browser experience introduces the landing page as a substitute for the actual digital asset. So much so that people end up questioning if these representations of the [metadata records actually need separate PIDs?](https://pidforum.org/t/do-metadata-records-need-separate-pids/2115) 
 
 Secondly, the selected metadata model represented on these landing pages leads people to believe it is "the" (only) metadata to consider. The reality is very different. 
 
 We argue there really is a primary case for accessing a digital asset: to anyone's spontaneous expectation it is about getting a copy of it. As in: "Go to the library, return with the book."
-Next to that there is a limitless amount of secondary cases one could consider, each of them introducing the need for a different set (model) of associated information (metadata). The linkset pattern we introduce here precisely recalibrates for this two insights: dereferencing a doi should land on the content, the linkset allows to inform the consumer of the many available associated information models.  Each of these declared associated links could be annotated with content-types, profile-declarations and variant-menus (like in [RT-P01] and [RT-P03]) to help clients navigate and select the one they need.
+Next to that there is a limitless amount of secondary cases one could consider, each of them introducing the need for a different set (model) of associated information (metadata). The linkset pattern we introduce here precisely recalibrates for this two insights: dereferencing a doi should land on the content, the linkset allows one to inform the consumer of the many available associated information models.  Each of these declared associated links could be annotated with content-types, profile-declarations and variant-menus (like in [RT-P01] and [RT-P03]) to help clients navigate and select the one they need.
 
 
 ### Landing Page Pattern considered Harmful
