@@ -7,26 +7,26 @@
 
 ## Goal
 
-The objective of this design pattern is to resolve the mostly "hidden nature" of content-negotiation implementations on the web. 
+The objective of this design pattern is to resolve the mostly hidden nature of content-negotiation implementations on the web. 
 
-To complement the existing practice this pattern encourages such implementations to expose the available variants and its possible interplay with redirection-practices. 
+To complement the existing practice, this pattern encourages such implementations to expose the available variants and its possible interplay with redirection-practices. 
 
 
 ## Motivation
 
 ### Half-sided "negotiation" 
 
-In standard HTTP content-negotiation there is actually only a very limited level of negotiation-dialogue going on. Compared to the food-ordering conversation in a restaurant which starts with asking and browsing the menu of what is available, or even be guided to suggestions by a helpful waiter, the web model more reflects the reality of ordering a drink at a noisy high throughput festival-bar: you get to shout your preferred order, but will have to content yourself with whatever you get back. 
+In standard HTTP content negotiation there is only a very limited level of negotiation dialogue going on. Compared to the food-ordering conversation in a restaurant which starts with asking and browsing the menu of what is available, or by being guided to suggestions by a helpful waiter, the web model more reflects the reality of ordering a drink at a noisy high-throughput festival bar: you get to shout your preferred order, but will have to content yourself with whatever you get back. 
 
-Indeed, being confided to only one request-response cycle, the client can express its preference in HTTP-Accept headers, but still has to simply deal with how the server justifies its best offer to satisfy that. Through this linkset-pattern the service (and its both-sides negotiability) can be augmented.  By slipping in a linkset that encodes the menu-of-availaibility in the response-header a client can actively decide wheather an alternative additional request prmoises to better fit its scenario. 
+Indeed, being confined to only one request-response cycle, the client can express its preference in HTTP-Accept headers, but still has to simply deal with how the server justifies its best offer to satisfy that. Through this linkset-pattern, the service (and its both-sides negotiability) can be augmented.  By slipping in a linkset that encodes the menu-of-availability in the response-header, a client can actively decide whether an alternative additional request promises to better fit its scenario. 
 
 ### The "Broken Chain" Problem
 
-The real world implementations of content-negotiation often rely on the 303 See Other status code to redirect a client from a Conceptual URI (the abstract identity of a resource) to a Representation URI (a specific file format like .ttl, .jsonld, or .html).
+The real world implementations of content negotiation often rely on the 303 See Other status code to redirect a client from a Conceptual URI (the abstract identity of a resource) to a Representation URI (a specific file format like .ttl, .jsonld, or .html).
 
-This mechanism creates a "Broken Chain" phenomenon for machine agents. Upon following the redirect, the agent arrives at a specific representation but often loses the state and context of the original Conceptual URI. Without explicit protocol-level signaling, the agent becomes "stranded" on a single variant, losing visibility of the "menu" of other available representations and the semantic metadata associated with the conceptual identity.
+This mechanism creates a "Broken Chain" phenomenon for machine agents. Upon following the redirect, the agent arrives at a specific representation but often loses the state and context of the original Conceptual URI. Without explicit protocol-level signaling, the agent becomes stranded on a single variant, losing visibility of the menu of other available representations and the semantic metadata associated with the conceptual identity.
 
-The Radical Transparency (RT) framework solves this by enforcing an Identity Anchor within the representation layer. By utilizing rel="self" for identity persistence. With this the server ensures that the chain of identity remains unbroken and that the full "representation menu" remains discoverable post-redirect.
+The Radical Transparency (RT) framework solves this by enforcing an Identity Anchor within the representation layer and by utilising rel="self" for identity persistence. With this, the server ensures that the chain of identity remains unbroken and that the full "representation menu" remains discoverable post-redirect.
 
 
 ## Applicability
@@ -41,8 +41,8 @@ This pattern SHOULD be applied to any resource within an interoperable data spac
 
 To ensure machine-actionable transparency, implementations MUST adhere to a number of exposed link-relations at both the conceptual and representation levels. 
 
-Additionally, this pattern strongly suggests to explicitely introduce the variant menu level (the linkset)
-This leads to benefits for both design (overview and manageability) and operational (materialisation and cacheability) aspects of this pattern.
+Additionally, this pattern strongly suggests to explicitly introduce the variant menu level (the linkset).
+This leads to benefits for the  design (overview and manageability) and the operational (materialisation and cache-ability) aspects of this pattern.
 
 ### Conceptual Resource Level (Identity)
 
@@ -59,7 +59,7 @@ Link: <variant1-uri>
         ; rel=alternate; type={mimeN}; language={langN}; profile={profN},
 ```
 
-Note: The applied parameters for the effective negotiation (by mimetype, language or profile) are to be independently provided in the link-relation
+Note: The applied parameters for the effective negotiation (by mimetype, language or profile) are to be independently provided in the link-relation.
 
 
 
@@ -76,9 +76,9 @@ Link: <concept-uri>; rel=self
 
 ### Variant Menu Level (Options)
 
-The above link-relations can reuseably be coded into a central linkset that functions as a local navigation map between all these resources. This linkset then actually materializes this "menu of variants".
+The above link-relations can reuseably be coded into a central linkset that functions as a local navigation map between all these resources. This linkset then actually materialises this "menu of variants".
 
-In that case all uri playing a role in the pattern (i.e. the concept-resource, all representation-variants and the variant-menu) should simply refer to that available variant-menu-linkset through
+In that case, all uri playing a role in the pattern (i.e. the concept-resource, all representation-variants, and the variant-menu) should simply refer to that available variant-menu-linkset through
 
 ```
 # from any <uri> anchor in this pattern
@@ -133,15 +133,15 @@ in `application/linkset` syntax:
 
 ### Note on search index optimisation and rel=canonical
 
-A close relative to the `rel=self` relation is the `rel=canonical`, introduced in [RFC 6596][RFC 6596] to mark the "preffered URI" to use for a specific resource:
+A close relative to the `rel=self` relation is the `rel=canonical`, introduced in [RFC 6596][RFC 6596] to mark the "preferred URI" to use for a specific resource:
 
 > In regard to the link relation type, "canonical" can be described informally as the author's preferred version of a resource.  More formally, the canonical link relation specifies the preferred IRI from a set of resources that return the context IRI's content in duplicated form.  Once specified, applications such as search engines can focus processing on the canonical, and references to the context (referring) IRI can be updated to reference the target (canonical) IRI.
 
-The prime application domain targetted here has clearly been search-engines. Given the textual references and the list of cited implementations in [the appendix A of the rfc](https://www.rfc-editor.org/info/rfc6596/#appendix-A) this search-engine application-domain is likely even the sole trigger for this: avoiding some canabilisation of "search-index-ranking" caused by the avoidable competition introduced by variants of essentially the same content from the same source.
+The prime application domain targeted here has clearly been search engines. Given the textual references and the list of cited implementations in [appendix A of the rfc](https://www.rfc-editor.org/info/rfc6596/#appendix-A), this search-engine application domain is likely even the sole trigger for this: avoiding some cannabilisation of "search-index-ranking" caused by the avoidable competition introduced by variants of essentially the same content from the same source.
 
-It should be clear the chosen `rel=self` label in this pattern is distinct from this, targetting the 'identifier' role, the one resource that caters for content-negotiation, not simply the 'preferred' one. 
+It should be clear the chosen `rel=self` label in this pattern is distinct from this, targeting the 'identifier' role, the one resource that caters for content-negotiation, not simply the 'preferred' one. 
 
-Still, in cases where search-engine references is important for your resources, adding the `rel =canonical` to the pattern should surely be considered. In such cases it should typically be (i) either duplicating the resource marked as `rel=self` or (ii) aiming for the human-focus of search-engine use it to directly mark the human-oriented variant (typically the `type=text/hml`).
+Still, in cases where search-engine references is important for your resources, adding the `rel =canonical` to the pattern should surely be considered. In such cases it should typically (i) either duplicate the resource marked as `rel=self` or (ii) aim for the human focus of search-engine use to directly mark the human-oriented variant (typically the `type=text/hml`).
 
 
 ## Sketch
