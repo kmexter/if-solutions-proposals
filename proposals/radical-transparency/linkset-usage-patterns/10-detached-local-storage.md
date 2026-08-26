@@ -2,9 +2,9 @@
 **Attaching Profile Declarations to Filesystem Content and Downloads**
 
 ## 1. Introduction to the Problem Space
-In modern data ecosystems (such as BIM, GIS, and Open Science), data must be highly diverse and rapidly evolvable. To achieve interoperability without central monopolization, different communities require specialized "profiles" (sub-schemas, validation shapes, and localized compliance rules) built on top of base formats.
+In modern data ecosystems (such as BIM, GIS, and Open Science), data must be highly diverse and rapidly evolvable. To achieve interoperability without central monopolization, different communities require specialised "profiles" (sub-schemas, validation shapes, and localised compliance rules) built on top of base formats.
 
-On the Web, managing this diversity is low-cost and dynamic thanks to Content Negotiation and HTTP headers. However, **as soon as a data resource lands on a local filesystem, this rich contextual metadata is instantly lost.** Users and applications are forced to rely entirely on ambiguous file extensions (e.g., `.xml`, `.json`, `.ifc`, `.gpkg`). These extensions only specify the syntax, completely hiding the specific profile or semantic namespace in use. 
+On the web, managing this diversity is low-cost and dynamic thanks to Content Negotiation and HTTP headers. However, **as soon as a data resource lands on a local filesystem, this rich contextual metadata is instantly lost.** Users and applications are forced to rely entirely on ambiguous file extensions (e.g., `.xml`, `.json`, `.ifc`, `.gpkg`). These extensions only specify the syntax, completely hiding the specific profile or semantic namespace in use. 
 
 To bridge this gap, we need a zero-cost, radical-transparency pattern to bootstrap profile compliance directly on physical filesystems, ensuring that files remain self-describing, discoverable, and linkable without modifying the original payload binaries.
 
@@ -27,7 +27,7 @@ This pattern borrows heavily from proven web standards and established filesyste
 
 ## 4. The Core Pattern
 
-The Radical Transparency Pattern operates on two distinct, synchronized layers:
+The Radical Transparency Pattern operates on two distinct, synchronised layers:
 
 ### 4.1 Tier A: The Web Layer (Download & Transport)
 When a client requests a resource, the server MUST emit the profile declarations. It does this via standard HTTP `Link` headers pointing to the applicable profile URIs, or by referencing an external linkset document:
@@ -40,11 +40,11 @@ Link: <https://example.org/profiles/nl-sfb-v2>; rel="profile",
 ```
 
 ### 4.2 Tier B: The Filesystem Layer (At Rest)
-Once downloaded, the HTTP header context is materialized on the local file system using two mutually reinforcing mechanisms:
+Once downloaded, the HTTP header context is materialised on the local file system using two mutually reinforcing mechanisms:
 
 #### 4.2.1 The Deterministic Sidecar (`*.ls.json`)
 For any payload file named `[filename].[ext]`, an optional sidecar file named `[filename].[ext].ls.json` is placed in the exact same directory. 
-* The sidecar MUST be a valid **RFC 9264 Linkset** serialized as JSON or JSON-LD.
+* The sidecar MUST be a valid **RFC 9264 Linkset** serialised as JSON or JSON-LD.
 * It explicitly binds the local payload file to its global, resolvable profile URIs.
 
 ```json
@@ -65,7 +65,7 @@ For any payload file named `[filename].[ext]`, an optional sidecar file named `[
 ```
 
 #### 4.2.2 The OS-Level Accelerator (`xattr`)
-To allow blazingly fast indexing by the operating system or localized daemons without parsing the filesystem directory tree, compliant tools can optionally write an Extended File Attribute to the payload file:
+To allow blazingly fast indexing by the operating system or localised daemons without parsing the filesystem directory tree, compliant tools can optionally write an Extended File Attribute to the payload file:
 * **Attribute Name:** `user.linkset`
 * **Attribute Value:** A valid URI string. This can either point to the local sidecar (`file:///./building.ifc.ls.json`) or point directly to an authoritative, live web resource (`https://api.example.org/models/123/linkset`) if online validation is preferred.
 
