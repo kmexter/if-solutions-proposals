@@ -6,23 +6,23 @@
 
 ## Goal
 
-The objective of this pattern is to provide a standardized mechanism for decomposing large linksets into manageable, cacheable, and specialized fragments. By utilizing the `rel="item"` and `rel="collection"` relations, providers can split extensive discovery maps—driven by large catalogs, complex sitemaps, or the aggregation of multiple RT patterns—without losing the structural integrity of the resource’s "webmap."
+The objective of this pattern is to provide a standardised mechanism for decomposing large linksets into manageable, cacheable, and specialised fragments. By utilizing the `rel="item"` and `rel="collection"` relations, providers can split extensive discovery maps—driven by large catalogues, complex sitemaps, or the aggregation of multiple RT patterns—without losing the structural integrity of the resource’s "webmap."
 
 ## Motivation
 
 While [RFC 9264 linksets][RFC 9264] solve the "bloated HTTP header" problem, the linkset documents themselves can become a bottleneck at scale. Key drivers for this pattern include:
 
-* Predictability and Performance: Massive linksets (e.g., for global catalogs) can impact parser performance and memory usage on constrained machine agents.
+* Predictability and Performance: Massive linksets (e.g., for global catalogues) can impact parser performance and memory usage on constrained machine agents.
 * Cache Optimization: Splitting links by their change frequency (e.g., static profile links in one file, dynamic provenance links in another) allows for more efficient HTTP caching strategies.
-* Separation of Concerns: A provider may wish to group links by their functional role (e.g., one child linkset for the Content Negotiation Menu of RT-P03 and another for the Subsetting API anchors of RT-P05). Additionally various resources might be playing different roles in different patterns: so linksets could naturally reflect individual patterns and get recombined depending on specific resources.
+* Separation of Concerns: A provider may wish to group links by their functional role (e.g., one child linkset for the Content Negotiation Menu of RT-P03 and another for the Subsetting API anchors of RT-P05). Additionally, various resources could be playing different roles in different patterns: so linksets could naturally reflect individual patterns and get recombined depending on specific resources.
 * Sync Efficiency: In large-scale deployments like ResourceSync or LDES, breaking down updates into smaller chunks reduces the payload size for each synchronization event.
 
 
 ## Relation to other patterns
 
-This is a simple and stand-alone "architectural housekeeping" pattern. A direct application in fact of [RFC 6573], in particular to linksets [RFC 9264] themselves.
+This is a simple and stand-alone "architectural house-keeping" pattern. A direct application in fact of [RFC 6573], in particular to linksets [RFC 9264] themselves.
 
-As such it simply serves as a reminder of a built-in engineering optimisation that might very well come in handy, precisely when eagerly adopting 'all these patterns' and its underlying Radical Transparency idea.
+As such, it simply serves as a reminder of a built-in engineering optimisation that might very well come in handy, precisely when eagerly adopting all the patterns and the underlying Radical Transparency idea.
 
 ## Encoding 
 
@@ -36,7 +36,7 @@ Decomposition follows a hierarchical structure using the Item/Collection logic (
 
 ### Design Considerations: Target Attributes 
 
-While [RFC 8288] is open to any key/value target attributes, it is limiting in its own standard set of target attributes (e.g., type, title, media) in [its 3.4 section](https://www.rfc-editor.org/info/rfc8288/#section-3.4), Radical Transparency encourages the use of extension attributes within linksets to guide machine agents. To optimize harvesting in [RT-P08], providers SHOULD consider adding:
+While [RFC 8288] is open to any key/value target attributes, it is limiting in its own standard set of target attributes (e.g., type, title, media). In [section 3.4](https://www.rfc-editor.org/info/rfc8288/#section-3.4), Radical Transparency encourages the use of extension attributes within linksets to guide machine agents. To optimise harvesting in [RT-P08], providers SHOULD consider adding:
 
 * `last-modified={iso 8601 datetime}`: To allow agents to skip hitting unchanged child linksets.
 * `change= {created|updated|deleted}`: (Inspired by [the changeType in ResourceSync](https://www.openarchives.org/rs/1.1/resourcesync.xsd)) to signal the nature of the update within a split-up stream.
@@ -44,7 +44,7 @@ While [RFC 8288] is open to any key/value target attributes, it is limiting in i
 
 ## Sketch
 
-![catalog assisted discovery](./08-large-linksets.svg)  
+![catalogue assisted discovery](./08-large-linksets.svg)  
 *Sketch of the linkset-usage-pattern for large-linksets*
 
 
@@ -62,7 +62,7 @@ While [RFC 8288] is open to any key/value target attributes, it is limiting in i
 To demonstrate [RT-P08], we revisit some of the MarineInfo.org resources we mentioned in earlier patterns. As a provider adopts multiple Radical Transparency patterns, the number of link relations for a single resource grows: it needs to declare Conformity Profiles ([RT-P01]), expose a Content Negotiation Menu ([RT-P03]), and provide context for Subsetting APIs ([RT-P05]).
 Instead of serving one monolithic linkset, MarineInfo uses a Master Linkset to delegate discovery based on functional roles. This ensures that a harvester interested only in "provenance" doesn't have to parse the entire "variants menu."
 
-1. The Master Linkset (institute-36.ls.json) The master linkset acts as the "Identity Anchor." It contains the bootstrap links and delegates the rest to specialized child linksets using `rel="item"`.
+1. The Master Linkset (institute-36.ls.json) The master linkset acts as the "Identity Anchor." It contains the bootstrap links and delegates the rest to specialised child linksets using `rel="item"`.
 
 ```json
 {
@@ -92,7 +92,7 @@ Instead of serving one monolithic linkset, MarineInfo uses a Master Linkset to d
 ```
 
 
-2. Specialized Child Linksets 
+2. Specialised Child Linksets 
 
 
 Example: `profiles.ls.json` -- This fragment focuses exclusively on the "What is this?" question, containing the relations from [RT-P01] and [RT-P02].
