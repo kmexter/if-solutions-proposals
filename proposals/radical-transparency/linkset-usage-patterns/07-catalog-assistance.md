@@ -6,66 +6,67 @@
 
 ## Goal
 
-The objective of this pattern is to delegate the granular exposure and discovery of digital assets to specialized catalogs, registers, or stream-based interfaces (such as DCAT, OGC API - Records, Subsetting API services, or dedicated harvesting services). By marking these catalogs as authoritative entry points within the host-wide discovery layer ([RT-P06]), providers can ensure that machine agents find the most efficient path to harvest or search large-scale collections without overwhelming static sitemaps.
+The objective of this pattern is to delegate the granular exposure and discovery of digital assets to specialised catalogues, registers, or stream-based interfaces (such as DCAT, OGC API - Records, Subsetting API services, or dedicated harvesting services). By marking these catalogues as authoritative entry points within the host-wide discovery layer ([RT-P06]), providers can ensure that machine agents find the most efficient path to harvest or search large-scale collections without overwhelming static sitemaps.
 
 ## Motivation
 
-The pattern for host-wide discovery [(RT-P06)][RT-P06] offer a simple and straightforward approach to mixin link-relation annotations into sitemaps. However, real-life service deployments make us additionally consider scaling challenges, typical hierarchy of resourcetypes and varying needs or goals for crawler activities or search-engine indexing:
+The pattern for host-wide discovery [(RT-P06)][RT-P06] offers a simple and straightforward approach to mixin link-relation annotations into sitemaps. However, real-life service deployments make us additionally consider scaling challenges, the typical hierarchy of resource types, and the varying needs or goals for crawler activities or search-engine indexing:
 
-* Scalability Limits: The Sitemap protocol is capped at 50,000 entries per file (or 50MB per file, if the average size per entry exceeds 1KB). This is insufficient for domains hosting millions of records or dynamic subsets. The sitemap protocol offers a hierarchical index file to mediate this limit, but offers no further application advise in mapping that to the common APIs that typically assist in such large scale publication of resources.
+* Scalability Limits: The sitemap protocol is capped at 50,000 entries per file (or 50MB per file, if the average size per entry exceeds 1KB). This is insufficient for domains hosting millions of records or dynamic subsets. The sitemap protocol offers a hierarchical index file to mediate this limit, but offers no further application advise in mapping that to the common APIs that typically assist in such large scale publication of resources.
 * Search vs. Crawl: Large collections often require query-based access (e.g., spatial filters in STAC or OGC Records) rather than linear crawling.
-* Bot Efficiency: Specialized catalogs provide richer metadata "hints" (profiles) that allow bots to skip irrelevant sub-collections early in the discovery process.
-* The Balancing Act: This pattern allows architects to choose the "optimal bucket" for their data. If a domain lacks a Subsetting API (RT-P05), it may keep more detail in the sitemap. Conversely, the presence of a robust API-Catalog (RFC 9727) allows the sitemap to remain "lean and mean" by simply pointing to the catalog's root.
+* Bot Efficiency: Specialised catalogues provide richer metadata "hints" (profiles) that allow bots to skip irrelevant sub-collections early in the discovery process.
+* The Balancing Act: This pattern allows architects to choose the "optimal bucket" for their data. If a domain lacks a subsetting API (RT-P05), it may keep more detail in the sitemap. Conversely, the presence of a robust API-Catalog (RFC 9727) allows the sitemap to remain "lean and mean" by simply pointing to the catalogue's root.
 
 ### The digital ecosystem hierarchy
 
 Modern data providers do not serve a flat list of files; they manage a complex hierarchy of digital assets. To navigate this effectively, machine agents must distinguish between various resource roles:
 
 * **Entry Points**: Static landing pages or single-page application (SPA) frontends that serve human users.
-* **Service Gateways**: API endpoints and catalog roots (e.g., OGC Records, STAC) that act as authoritative brokers for sub-collections.
-* **Aggregated Assets**: Datasets and catalog dumps provided as bulk downloads for initial harvesting.
+* **Service Gateways**: API endpoints and catalogue roots (e.g., OGC Records, STAC) that act as authoritative brokers for sub-collections.
+* **Aggregated Assets**: Datasets and catalogue dumps provided as bulk downloads for initial harvesting.
 * **Granular Resources**: Individual records, metadata files ([RT-P04]), and dynamic data fragments ([RT-P05]).
 
-To prevent crawlers from getting lost in this hierarchy, [RT-P07] utilizes the Sitemap Index hierarchy. Instead of a single massive file, providers use a sitemap-index.xml to delegate specific sub-domains of the host to dedicated sitemaps that can both list and serve as alternatives to catalogs or dedicated APIs. In combination with conformity declarations through [RT-P01] this structural "hand-over" ensures that a general web-bot finds the gateway, while a specialized harvester (like an LDES client) follows the rel="profile" link to initiate deep harvesting.
+To prevent crawlers from getting lost in this hierarchy, [RT-P07] utilises the Sitemap Index hierarchy. Instead of a single massive file, providers use a sitemap-index.xml to delegate specific sub-domains of the host to dedicated sitemaps that can list and serve as alternatives to catalogues or dedicated APIs. In combination with conformity declarations through [RT-P01], this structural "hand-over" ensures that a general web bot finds the gateway, while a specialised harvester (such as an LDES client) follows the rel="profile" link to initiate deep harvesting.
 
 
 ## Relation to other patterns
 
 [RT-P07] does not exist in isolation; it functions as the structural glue between host-wide discovery and granular interaction:
 
-* [RT-P06] Integration: It extends the host-wide discovery by specializing the sitemap entries. While P06 says "I have resources," P07 says "For these specific resources, consider using this specialist API."
-* [RT-P01] Dependency: A machine agent relies on the `rel=profile` declaration within the sitemap to recognize that a URI is not just a page, but a catalog adhering to a known standard (like DCAT or OGC).
-* [RT-P05] Connection: When a catalog exposes dynamic subsetting capabilities, it functions as a Subsetting API. RT-P07 provides the link to the service base, which in turn provides the `rel=collection` anchors for individual fragments.
+* [RT-P06] Integration: It extends the host-wide discovery by specialising the sitemap entries. While P06 says "I have resources," P07 says "For these specific resources, consider using this specialist API."
+* [RT-P01] Dependency: A machine agent relies on the `rel=profile` declaration within the sitemap to recognise that a URI is not just a page, but a catalogue adhering to a known standard (like DCAT or OGC).
+* [RT-P05] Connection: When a catalogue exposes dynamic subsetting capabilities, it functions as a subsetting API. RT-P07 provides the link to the service base, which in turn provides the `rel=collection` anchors for individual fragments.
 
 
-Also, this approach alligns with the recommendations of the [ODIS Book](https://book.odis.org/gettingStarted.html#creating-a-sitemap) and taps into actual sitemap generation support that is already implemented in some subsetting-API systems.
+Also, this approach aligns with the recommendations of the [ODIS Book](https://book.odis.org/gettingStarted.html#creating-a-sitemap) and taps into actual sitemap generation support that is already implemented in some subsetting API systems.
 
 
 ## Encoding 
 
-This pattern implements the "hand-over" from the general sitemap to the specialized catalog using the ResourceSync/Signmap extension elements (`rs:ln`). 
+This pattern implements the hand-over from the general sitemap to the specialised catalogue using the ResourceSync/Signmap extension elements (`rs:ln`). 
 
-To do this, it introduces a sitemap-hierarchy that allows to mimic the 'collection' or 'containment' relation API-endpoints have to detailed resources they produce. This allows to treat these sitemaps as 'alternative' representations for those API-endpoints.  Applied to itself this approach suggests the well-known api-catalog itself, which is expected to list all local API-endpoints should also receive such sitemap.xml counterpart to be placed in the hierarchy.
+To do this, it introduces a sitemap hierarchy that mimics the 'collection' or 'containment' relation API endpoints have to detailed resources they produce. This allows one to treat these sitemaps as 'alternative' representations for those API-endpoints.  Applied to itself this approach suggests the well-known api-catalog itself, which is expected to list all local API endpoints should also receive such sitemap.xml counterpart to be placed in the hierarchy.
 
-To implement catalog-assisted exposure, providers MUST follow these rules:
-* Bootstrap: provide a root sitemap-index conform to [sitemaps-org] 
-* Catalog-of-Catalogs: an [RFC 9727] compatible `api-catalog` MUST be provided, and listed in the sitemap hierarchy, additionally its content SHOULD be reflected in a dedicated sitemap.xml alternate, which should also be referenced in the sitemap-hierarchy. The `<rs:nl>` should be uses to mark this resource with the `rel=api-catalog`
-* Catalog Registration: Every authoritative catalog on the system SHOULD be listed in the above `api-catalog`, and CAN provide itself an alternate in sitemap.xml format.
-* Mandatory Profiling: To enable machine-actionability, each entry SHOULD declare its conformity via `rel=profile` relations. In the various sitemap.xml these SHOULD be encoded through `<rs:ln>` elements.
+To implement catalogue-assisted exposure, providers MUST follow these rules:
+
+* Bootstrap: provide a root sitemap index conforming to [sitemaps-org] 
+* Catalogue-of-Catalogues: an [RFC 9727] compatible `api-catalog` MUST be provided, and listed in the sitemap hierarchy; additionally its content SHOULD be reflected in a dedicated sitemap.xml alternate, which should also be referenced in the sitemap hierarchy. The `<rs:nl>` should be used to mark this resource with the `rel=api-catalog`
+* Catalogue Registration: Every authoritative catalogue on the system SHOULD be listed in the above `api-catalog`, and CAN provide itself an alternate in sitemap.xml format.
+* Mandatory Profiling: To enable machine actionability, each entry SHOULD declare its conformity via `rel=profile` relations. In the various sitemap.xml, these SHOULD be encoded through `<rs:ln>` elements.
 
 ### Design Considerations: The Balancing Act of Exposure
 
-The boundary between host-wide sitemaps ([RT-P06]) and catalog-assisted exposure ([RT-P07]) is not a fixed architectural mandate but a strategic choice based on local service optimization. While specialized catalogs are superior for handling millions of dynamic records, sitemaps remain the "Maximum Boredom" path for general web-bots. 
+The boundary between host-wide sitemaps ([RT-P06]) and catalogue-assisted exposure ([RT-P07]) is not a fixed architectural mandate but a strategic choice based on local service optimisation. While specialised catalogues are superior for handling millions of dynamic records, sitemaps remain the "Maximum Boredom" path for general web-bots. 
 
 When designing an exposure strategy, providers should consider the following: 
 
 * Sitemaps as API Alternates: Following the logic of `rel=alternate`, a sitemap hierarchy can be viewed as a static, crawlable alternative to a searchable WebService API . This allows providers to support low-barrier harvesting for standard bots while reserving the API for complex, query-driven interactions.
 
-* Crawl Optimization and Protection: To ensure service stability, architects may choose to expose all granular resources in a sitemap hierarchy while simultaneously applying `Disallow` directives in the `robots.txt` for the corresponding API endpoints (e.g., `Disallow: /api/v1/records/**`). This guides automated agents toward the pre-calculated sitemap index and away from resource-intensive search interfaces.
+* Crawl Optimisation and Protection: To ensure service stability, architects may choose to expose all granular resources in a sitemap hierarchy while simultaneously applying `Disallow` directives in the `robots.txt` for the corresponding API endpoints (e.g., `Disallow: /api/v1/records/**`). This guides automated agents toward the pre-calculated sitemap index and away from resource-intensive search interfaces.
 
 * Redundancy at the Meta-Level: Listing API gateways in both a sitemap and an [RFC 9727 api-catalog][RCFC 9727] is a deliberate choice of "Explorability" over exclusivity. The sitemap ensures the service is discoverable by general-purpose web crawlers, while the `api-catalog` provides a dedicated registry for agents specifically seeking technical contracts (OpenAPI) and service status.
 
-* Delegation of Responsibility: The primary goal of [RT-P07] is to enable a "hand-over." Providers must decide if, and at what level of the hierarchy a general-purpose crawler should stop following sitemap links and start utilizing a specialized harvester (such as an LDES client or STAC crawler) based on the declared `rel=profile`.
+* Delegation of Responsibility: The primary goal of [RT-P07] is to enable a "hand-over." Providers must decide if, and at what level of the hierarchy, a general-purpose crawler should stop following sitemap links and start utilising a specialised harvester (such as an LDES client or STAC crawler) based on the declared `rel=profile`.
 
 ## Sketch
 
@@ -78,7 +79,7 @@ When designing an exposure strategy, providers should consider the following:
 | Relation Type | Specification | Technical Function | 
 | :--- | :--- | :--- | 
 | rel=api-catalog | [RFC 9727] | Identifies the resource as a formal registry of services or APIs. | 
-| rel=profile | [RFC 6906] | Declares the standard the catalog adheres to (e.g., STAC, DCAT, OGC), allowing the harvester to select the correct driver. |
+| rel=profile | [RFC 6906] | Declares the standard the catalogue adheres to (e.g., STAC, DCAT, OGC), allowing the harvester to select the correct driver. |
 | rel=collection | [RFC 6573] |  As in [RT-P05] we link provided details and subsets back to the api-endpoint that produces them. | 
 | rel=self | [RFC 4287] | As in [RT-P03] we link alternatives back to their core identifying resource. 
 | rel=alternate | [RFC 6596]  | As in [RT-P03] we link to known alternative representations.
@@ -201,6 +202,7 @@ This can mostly be repeated into the alternate variant in sitemap.xml format as 
 ### The LDES API 
 
 Finally each API endpoint can play a similar game to 
+
 1. use link relations to hook-up api-catalog and/or (optionally more elaborate) linksets 
 2. provide a classic sitemap.xml alternate variant to harvest (some selection of) sub-resources.
 
